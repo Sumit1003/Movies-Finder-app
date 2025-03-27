@@ -151,20 +151,34 @@ header {
 .logo {
   display: flex;
   align-items: center;
-  gap: 15px;
-  animation:none
+  gap: 10px;
+  cursor: pointer;  
+  font-size: 15px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 2px;
+  width: fit-content;
+  transition: transform 0.2s ease-in-out;
 }
 
-.logo h1 {
-  color: var(--primary-color);
-  font-size: 2rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  letter-spacing: 1px;
-  cursor: pointer;
+/* Hover effect */
+.logo:hover {
+  transform: scale(1.05);
 }
 
-.logo span {
-  color: var(--text-color);
+/* Styling the SVG */
+.logo-icon {
+  width: 30px;
+  height: 30px;
+  stroke: rgb(226, 0, 0);
+  /* Ensures the icon is visible */
+  fill: transparent;
+}
+
+/* Fade-out effect before reload */
+.fade-out {
+  opacity: 2px;
+  transition: opacity 0.3s ease-in-out;
 }
 
 .search-container {

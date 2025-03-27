@@ -4,6 +4,17 @@ import ui from "./ui.js"
 import storageManager from "./storage.js"
 import movieAPI from "./api.js"
 
+document.getElementById("movieflix-logo").addEventListener("click", function () {
+  // Apply fade-out effect
+  document.body.classList.add("fade-out");
+
+  // Wait for animation to complete before reloading
+  setTimeout(() => {
+    location.reload(); // Reload the page smoothly
+    // OR redirect smoothly: window.location.href = "index.html";
+  }, 300); // Delay must match CSS transition time
+});
+
 // Main App Class
 class App {
   constructor() {
