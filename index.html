@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Movie Search App - Find and save your favorite movies">
+  <title>MovieFlix - Search Movies</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="manifest" href="manifest.json">
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/logo.jpg">
+</head>
+<body class="Dark-mode">
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <h1>Movie<span>Flix</span></h1>
+          <button id="theme-toggle" aria-label="Toggle dark mode">
+            <i class="fas fa-sun"></i>
+          </button>
+        </div>
+        <nav>
+          <ul>
+            <li class="dropdown">
+              <a href="#" id="home-link" class="active">Movies <i class="fas fa-caret-down"></i></a>
+              <div class="dropdown-content">
+                <a href="#" data-category="action">Action</a>
+                <a href="#" data-category="comedy">Comedy</a>
+                <a href="#" data-category="drama">Drama</a>
+                <a href="#" data-category="thriller">Thriller</a>
+              </div>
+            </li>
+            <li class="dropdown">
+              <a href="#">Series <i class="fas fa-caret-down"></i></a>
+              <div class="dropdown-content">
+                <a href="#" data-category="netflix">Netflix</a>
+                <a href="#" data-category="amazon">Amazon</a>
+                <a href="#" data-category="hbo">HBO</a>
+                <a href="#" data-category="disney">Disney+</a>
+              </div>
+            </li>
+            <li class="dropdown">
+              <a href="#">Category <i class="fas fa-caret-down"></i></a>
+              <div class="dropdown-content">
+                <a href="#" data-category="hollywood">Hollywood</a>
+                <a href="#" data-category="bollywood">Bollywood</a>
+                <a href="#" data-category="korean">Korean</a>
+                <a href="#" data-category="anime">Anime</a>
+              </div>
+            </li>
+            <li><a href="#" id="favorites-link">Favorites</a></li>
+            <li><a href="#" id="watchlist-link">Watchlist</a></li>
+            <li><a href="#" id="login-link" class="auth-link">Login</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="search-container" style="margin: 30px auto;">
+        <form id="search-form">
+          <input type="text" id="search-input" placeholder="Search for movies..." aria-label="Search for movies">
+          <button type="submit" aria-label="Search"><i class="fas fa-search"></i></button>
+        </form>
+        <div id="recent-searches" class="recent-searches">
+          <h3>Recent Searches</h3>
+          <ul id="recent-searches-list"></ul>
+        </div>
+      </div>
+
+      <!-- <div class="filter-buttons">
+        <button class="filter-btn" data-filter="480p">480p</button>
+        <button class="filter-btn" data-filter="720p">720p</button>
+        <button class="filter-btn" data-filter="1080p">1080p</button>
+        <button class="filter-btn" data-filter="hollywood">Hollywood</button>
+        <button class="filter-btn" data-filter="bollywood">Bollywood</button>
+        <button class="filter-btn" data-filter="korean">Korean</button>
+        <button class="filter-btn" data-filter="animation">Animation</button>
+        <button class="filter-btn" data-filter="anime">Anime</button>
+        <button class="filter-btn" data-filter="amazon">AmazonPrime</button>
+        <button class="filter-btn" data-filter="disney">Disney+</button>
+        <button class="filter-btn" data-filter="netflix">Netflix</button>
+        <button class="filter-btn" data-filter="hindi">Hindi</button>
+        <button class="filter-btn" data-filter="english">English</button>
+      </div> -->
+
+      <section id="filter-section" class="filter-section">
+        <div class="filter-options">
+          <div class="filter-group">
+            <label for="sort-by">Sort By:</label>
+            <select id="sort-by">
+              <option value="title">Title</option>
+              <option value="year">Year</option>
+              <option value="rating">Rating</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label for="filter-type">Type:</label>
+            <select id="filter-type">
+              <option value="all">All</option>
+              <option value="movie">Movies</option>
+              <option value="series">Series</option>
+              <option value="episode">Episodes</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label for="filter-year">Year:</label>
+            <select id="filter-year">
+              <option value="">All Years</option>
+              <!-- Years will be populated by JavaScript -->
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <section id="movies-section" class="movies-section">
+        <div class="section-header">
+          <h2 id="results-heading">Latest Movies & Series</h2>
+        </div>
+        <div id="movies-grid" class="movies-grid"></div>
+        <div id="pagination" class="pagination">
+          <button id="prev-page" disabled>Previous</button>
+          <span id="current-page">Page 1</span>
+          <button id="next-page">Next</button>
+        </div>
+        <div id="loader" class="loader hidden">
+          <div class="spinner"></div>
+        </div>
+      </section>
+
+      <section id="movie-details" class="movie-details hidden">
+        <button id="back-button" class="back-button"><i class="fas fa-arrow-left"></i> Back to results</button>
+        <div class="movie-details-content">
+          <div class="movie-poster-container">
+            <img id="detail-poster" src="/placeholder.svg" alt="Movie poster">
+            <div class="poster-actions">
+              <button id="download-poster" class="action-button"><i class="fas fa-download"></i> Download Poster</button>
+              <button id="add-favorite" class="action-button"><i class="fas fa-heart"></i> Add to Favorites</button>
+              <button id="add-watchlist" class="action-button"><i class="fas fa-bookmark"></i> Add to Watchlist</button>
+              <button id="share-movie" class="action-button"><i class="fas fa-share-alt"></i> Share</button>
+            </div>
+          </div>
+          <div class="movie-info">
+            <h2 id="detail-title"></h2>
+            <div class="movie-meta">
+              <span id="detail-year"></span>
+              <span id="detail-rated"></span>
+              <span id="detail-runtime"></span>
+            </div>
+            <div class="movie-genre" id="detail-genre"></div>
+            <div class="movie-rating">
+              <div class="imdb-rating">
+                <i class="fab fa-imdb"></i>
+                <span id="detail-imdb-rating"></span>/10
+              </div>
+              <div class="user-rating">
+                <div class="stars" id="user-stars">
+                  <i class="far fa-star" data-rating="1"></i>
+                  <i class="far fa-star" data-rating="2"></i>
+                  <i class="far fa-star" data-rating="3"></i>
+                  <i class="far fa-star" data-rating="4"></i>
+                  <i class="far fa-star" data-rating="5"></i>
+                </div>
+                <span id="user-rating-text">Rate this movie</span>
+              </div>
+            </div>
+            <div class="movie-plot">
+              <h3>Plot</h3>
+              <p id="detail-plot"></p>
+            </div>
+            <div class="movie-cast">
+              <h3>Cast & Crew</h3>
+              <p><strong>Director:</strong> <span id="detail-director"></span></p>
+              <p><strong>Writers:</strong> <span id="detail-writer"></span></p>
+              <p><strong>Actors:</strong> <span id="detail-actors"></span></p>
+            </div>
+            <div class="movie-trailer" id="movie-trailer">
+              <h3>Trailer</h3>
+              <div id="trailer-container"></div>
+            </div>
+            <div class="movie-reviews">
+              <h3>User Reviews</h3>
+              <div id="reviews-container">
+                <div id="reviews-list"></div>
+                <div id="add-review-container">
+                  <textarea id="review-text" placeholder="Write your review..."></textarea>
+                  <button id="submit-review">Submit Review</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Auth Modal -->
+  <div id="auth-modal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-tab="login">Login</button>
+        <button class="auth-tab" data-tab="signup">Sign Up</button>
+      </div>
+      <div id="login-form" class="auth-form">
+        <h2>Login to Your Account</h2>
+        <form>
+          <div class="form-group">
+            <label for="login-email">Email</label>
+            <input type="email" id="login-email" required>
+          </div>
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" required>
+          </div>
+          <button type="submit" id="login-submit">Login</button>
+        </form>
+      </div>
+      <div id="signup-form" class="auth-form hidden">
+        <h2>Create an Account</h2>
+        <form>
+          <div class="form-group">
+            <label for="signup-name">Name</label>
+            <input type="text" id="signup-name" required>
+          </div>
+          <div class="form-group">
+            <label for="signup-email">Email</label>
+            <input type="email" id="signup-email" required>
+          </div>
+          <div class="form-group">
+            <label for="signup-password">Password</label>
+            <input type="password" id="signup-password" required>
+          </div>
+          <div class="form-group">
+            <label for="signup-confirm-password">Confirm Password</label>
+            <input type="password" id="signup-confirm-password" required>
+          </div>
+          <button type="submit" id="signup-submit">Sign Up</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Share Modal -->
+  <div id="share-modal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Share This Movie</h2>
+      <div class="share-link">
+        <input type="text" id="share-url" readonly>
+        <button id="copy-link">Copy Link</button>
+      </div>
+      <div class="social-share">
+        <button class="social-btn facebook"><i class="fab fa-facebook-f"></i> Facebook</button>
+        <button class="social-btn twitter"><i class="fab fa-twitter"></i> Twitter</button>
+        <button class="social-btn whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>About MovieFlix</h3>
+          <p>MovieFlix is your ultimate destination for discovering and exploring movies and TV shows from around the world. We provide high-quality information, ratings, and reviews.</p>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div class="footer-section">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Movies</a></li>
+            <li><a href="#">TV Shows</a></li>
+            <li><a href="#">Top Rated</a></li>
+            <li><a href="#">Coming Soon</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Categories</h3>
+          <ul>
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Comedy</a></li>
+            <li><a href="#">Drama</a></li>
+            <li><a href="#">Horror</a></li>
+            <li><a href="#">Sci-Fi</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Contact Us</h3>
+          <ul>
+            <li><i class="fas fa-envelope"></i> info@movieflix.com</li>
+            <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+            <li><i class="fas fa-map-marker-alt"></i> 123 Movie Street, Hollywood, CA</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2023 MovieFlix. All rights reserved. | Powered by <a href="http://www.omdbapi.com/" target="_blank">OMDb API</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script type="module" src="js/config.js"></script>
+  <script type="module" src="js/api.js"></script>
+  <script type="module" src="js/storage.js"></script>
+  <script type="module" src="js/ui.js"></script>
+  <script type="module" src="js/auth.js"></script>
+  <script type="module" src="js/app.js"></script>
+  <script>
+    // Register service worker for PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(registration => {
+            console.log('ServiceWorker registration successful');
+          })
+          .catch(error => {
+            console.log('ServiceWorker registration failed:', error);
+          });
+      });
+    }
+  </script>
+</body>
+</html>
+
