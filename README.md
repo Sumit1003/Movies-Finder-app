@@ -1,5 +1,5 @@
 ## Live Demo
-Check out the live version of this project: [Live Demo](https://your-live-demo-link.com)# 🎬 
+Check out the live version of this project: [Live Demo](https://sumit1003.github.io/Movies-Finder-app/)# 🎬 
 
 
 MovieFlix - Search Movies & TV Shows
