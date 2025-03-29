@@ -75,6 +75,44 @@ class App {
       }
     })
 
+    // Enable horizontal scrolling for filter buttons on mobile
+    const filterButtons = document.querySelector(".filter-buttons")
+    if (filterButtons) {
+      filterButtons.addEventListener("wheel", (e) => {
+        if (window.innerWidth <= 768) {
+          e.preventDefault()
+          filterButtons.scrollLeft += e.deltaY
+        }
+      })
+
+      // Touch scrolling for mobile
+      let isDown = false
+      let startX
+      let scrollLeft
+
+      filterButtons.addEventListener("mousedown", (e) => {
+        isDown = true
+        startX = e.pageX - filterButtons.offsetLeft
+        scrollLeft = filterButtons.scrollLeft
+      })
+
+      filterButtons.addEventListener("mouseleave", () => {
+        isDown = false
+      })
+
+      filterButtons.addEventListener("mouseup", () => {
+        isDown = false
+      })
+
+      filterButtons.addEventListener("mousemove", (e) => {
+        if (!isDown) return
+        e.preventDefault()
+        const x = e.pageX - filterButtons.offsetLeft
+        const walk = (x - startX) * 2
+        filterButtons.scrollLeft = scrollLeft - walk
+      })
+    }
+
     // Pagination buttons
     this.prevPageBtn.addEventListener("click", () => {
       if (this.currentPage > 1) {
@@ -153,6 +191,50 @@ class App {
         this.searchByCategory(category)
       })
     })
+
+    // Mobile menu toggle
+    const mobileMenuToggle = document.getElementById("mobile-menu-toggle")
+    const mainNav = document.getElementById("main-nav")
+    const menuOverlay = document.getElementById("menu-overlay")
+
+    if (mobileMenuToggle && mainNav && menuOverlay) {
+      mobileMenuToggle.addEventListener("click", () => {
+        mainNav.classList.toggle("active")
+        menuOverlay.classList.toggle("active")
+        document.body.classList.toggle("menu-open")
+        mobileMenuToggle.innerHTML = mainNav.classList.contains("active")
+          ? '<i class="fas fa-times"></i>'
+          : '<i class="fas fa-bars"></i>'
+      })
+
+      // Close mobile menu when clicking on overlay
+      menuOverlay.addEventListener("click", () => {
+        mainNav.classList.remove("active")
+        menuOverlay.classList.remove("active")
+        document.body.classList.remove("menu-open")
+        mobileMenuToggle.innerHTML = '<i class="fas fa-bars"></i>'
+      })
+
+      // Handle dropdown toggles in mobile view
+      const dropdowns = document.querySelectorAll(".dropdown")
+      dropdowns.forEach((dropdown) => {
+        const dropdownLink = dropdown.querySelector("a")
+        dropdownLink.addEventListener("click", (e) => {
+          if (window.innerWidth <= 768) {
+            e.preventDefault()
+            dropdown.classList.toggle("active")
+
+            // Close other dropdowns
+            dropdowns.forEach((otherDropdown) => {
+              if (otherDropdown !== dropdown) {
+                otherDropdown.classList.remove("active")
+              }
+            })
+          }
+        })
+      })
+    }
+
   }
 
   // Update active filters

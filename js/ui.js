@@ -770,6 +770,24 @@ class UI {
     // Setup filter buttons and dropdown menus
     this.setupFilterButtons()
     this.setupDropdownMenus()
+
+    // Close mobile menu when navigating
+    const navLinks = document.querySelectorAll("nav a")
+    navLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        const mainNav = document.getElementById("main-nav")
+        const menuOverlay = document.getElementById("menu-overlay")
+        const mobileMenuToggle = document.getElementById("mobile-menu-toggle")
+
+        if (window.innerWidth <= 768 && !link.parentElement.classList.contains("dropdown")) {
+          mainNav.classList.remove("active")
+          menuOverlay.classList.remove("active")
+          document.body.classList.remove("menu-open")
+          mobileMenuToggle.innerHTML = '<i class="fas fa-bars"></i>'
+        }
+      })
+    })
+    
   }
 }
 

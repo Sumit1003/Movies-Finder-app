@@ -100,7 +100,7 @@ body {
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 15px;
 }
 
 a {
@@ -137,7 +137,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 100;
-  padding: 15px 0;
+  padding: 12px 0;
   transition: all var(--transition-speed) ease;
 }
 
@@ -185,17 +185,20 @@ header {
   width: 100%;
   position: relative;
   max-width: 600px;
-  margin: 0 auto;
+  margin: 20px auto;
   animation: slideUp var(--animation-speed) ease-out;
+  z-index: 10;
 }
 
 #search-form {
   display: flex;
   width: 100%;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
+  border-radius: 8px;
   overflow: hidden;
   transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+  box-shadow: var(--transition-speed) ease;
+  height: 50px;
 }
 
 #search-form:focus-within {
@@ -205,26 +208,35 @@ header {
 
 #search-input {
   flex: 1;
-  padding: 14px 18px;
+  padding: 12px 16px;
   border: none;
-  border-radius: 4px 0 0 4px;
-  font-size: 1rem;
+  border-radius: 8px 0 0 8px;
+  font-size: 16px;
   background-color: var(--input-bg);
   color: var(--input-text);
   transition: background-color var(--transition-speed) ease;
+  height: 100%;
 }
 
 #search-form button {
   background-color: var(--primary-color);
   color: white;
-  padding: 14px 18px;
-  border-radius: 0 4px 4px 0;
+  padding: 0 20px;
+  border-radius: 0 8px 8px 0;
   transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 60px;
+  height: 100%;
 }
 
 #search-form button:hover {
   background-color: var(--button-hover);
-  transform: scale(1.05);
+}
+
+#search-form button i {
+  font-size: 1.2rem;
 }
 
 .recent-searches {
@@ -239,6 +251,8 @@ header {
   z-index: 10;
   display: none;
   animation: slideUp var(--animation-speed) ease-out;
+  max-height: 300px;
+  overflow-y: auto;
 }
 
 .recent-searches h3 {
@@ -246,6 +260,10 @@ header {
   border-bottom: 1px solid var(--border-color);
   font-size: 0.9rem;
   color: var(--primary-color);
+  position: sticky;
+  top: 0;
+  background-color: var(--card-bg);
+  z-index: 1;
 }
 
 #recent-searches-list li {
@@ -344,11 +362,30 @@ nav a.active::after {
 /* Filter Buttons */
 .filter-buttons {
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin: 25px 0;
-  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 10px;
+  margin: 20px 0;
+  justify-content: flex-start;
   animation: slideUp var(--animation-speed) ease-out;
+  overflow-x: auto;
+  padding: 5px 0 15px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-color) var(--card-bg);
+}
+
+.filter-buttons::-webkit-scrollbar {
+  height: 6px;
+}
+
+.filter-buttons::-webkit-scrollbar-track {
+  background: var(--card-bg);
+  border-radius: 10px;
+}
+
+.filter-buttons::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color);
+  border-radius: 10px;
 }
 
 .filter-btn {
@@ -361,6 +398,8 @@ nav a.active::after {
   transition: all var(--transition-speed) ease;
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+  flex: 0 0 auto;
 }
 
 .filter-btn:hover {
@@ -381,7 +420,7 @@ nav a.active::after {
   background-color: var(--card-bg);
   border-radius: 12px;
   padding: 20px;
-  margin: 25px 0;
+  margin: 20px 0;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   animation: slideUp var(--animation-speed) ease-out;
   transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
@@ -395,14 +434,16 @@ nav a.active::after {
 .filter-options {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 15px;
   justify-content: space-between;
 }
 
 .filter-group {
   display: flex;
-  align-items: center;
-  gap: 12px;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  min-width: 120px;
 }
 
 .filter-group label {
@@ -411,13 +452,22 @@ nav a.active::after {
 }
 
 .filter-group select {
-  padding: 10px 15px;
+  padding: 12px 15px;
   border: 1px solid var(--border-color);
   border-radius: 8px;
   background-color: var(--input-bg);
   color: var(--input-text);
   transition: all var(--transition-speed) ease;
   cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
 .filter-group select:hover,
@@ -428,7 +478,7 @@ nav a.active::after {
 
 /* Movies Section */
 .movies-section {
-  margin: 40px 0;
+  margin: 30px 0;
   animation: fadeIn var(--animation-speed) ease-in-out;
 }
 
@@ -1163,36 +1213,13 @@ nav a.active::after {
   background-color: #25d366;
 }
 
-/* Footer */
-footer {
-  background-color: var(--footer-bg);
-  color: var(--footer-text);
-  padding: 60px 0 30px;
-  margin-top: 60px;
-  position: relative;
-  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3);
-}
-
-footer::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 5px;
-  background: linear-gradient(to right, var(--primary-color), #ff5e62, #ff9966);
-}
-
 .footer-content {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 40px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
 }
 
 .footer-section {
-  flex: 1;
-  min-width: 200px;
   animation: slideUp var(--animation-speed) ease-out;
 }
 
@@ -1221,7 +1248,7 @@ footer::before {
 }
 
 .footer-section ul li {
-  margin-bottom: 12px;
+  margin-bottom: 15px;
   transition: transform var(--transition-speed) ease;
 }
 
@@ -1229,27 +1256,36 @@ footer::before {
   transform: translateX(5px);
 }
 
-.footer-section ul li a {
+.footer-section ul li a,
+.footer-section ul li {
   color: var(--footer-text);
   transition: color var(--transition-speed) ease;
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  font-size: 0.95rem;
 }
 
 .footer-section ul li a:hover {
   color: var(--primary-color);
 }
 
+.footer-section ul li i {
+  color: var(--primary-color);
+  width: 20px;
+  text-align: center;
+}
+
 .social-icons {
   display: flex;
-  gap: 20px;
+  flex-wrap: wrap;
+  gap: 15px;
   margin-top: 20px;
 }
 
 .social-icons a {
   color: var(--footer-text);
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   transition: all var(--transition-speed) cubic-bezier(0.175, 0.885, 0.32, 1.275);
   background-color: rgba(255, 255, 255, 0.1);
   width: 45px;
@@ -1269,8 +1305,8 @@ footer::before {
 
 .footer-bottom {
   text-align: center;
-  margin-top: 40px;
-  padding-top: 25px;
+  margin-top: 30px;
+  padding-top: 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   font-size: 0.9rem;
   color: #aaa;
@@ -1385,11 +1421,6 @@ footer::before {
     justify-content: center;
   }
 
-  .footer-content {
-    flex-direction: column;
-    gap: 30px;
-  }
-
   .movie-meta {
     flex-direction: column;
     gap: 10px;
@@ -1402,29 +1433,126 @@ footer::before {
   }
 }
 
-@media (max-width: 480px) {
-  .movies-grid {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 15px;
+/* Mobile Navigation Styles */
+@media (max-width: 768px) {
+  .mobile-menu-toggle {
+    display: block;
   }
 
-  .movie-poster {
-    height: 200px;
+  nav#main-nav {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 80%;
+    max-width: 300px;
+    height: 100vh;
+    background-color: var(--card-bg);
+    z-index: 100;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+    transition: right 0.3s ease-in-out;
+    padding: 80px 20px 20px;
+    overflow-y: auto;
   }
 
-  .pagination button {
-    padding: 10px 15px;
+  nav#main-nav.active {
+    right: 0;
+  }
+
+  nav#main-nav ul {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  nav#main-nav li {
+    width: 100%;
+  }
+
+  nav#main-nav a {
+    padding: 15px 10px;
+    width: 100%;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .dropdown-content {
+    position: static;
+    display: none;
+    width: 100%;
+    box-shadow: none;
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 0;
+    border-radius: 0;
+  }
+
+  .dropdown-content a {
+    padding-left: 25px;
+  }
+
+  .dropdown.active .dropdown-content {
+    display: block;
+  }
+
+  .dropdown>a::after {
+    content: "\f078";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    margin-left: 5px;
+    transition: transform 0.3s ease;
+  }
+
+  .dropdown.active>a::after {
+    transform: rotate(180deg);
+  }
+}
+
+/* Improve responsive styles for other elements */
+@media (max-width: 768px) {
+  body.menu-open {
+    overflow: hidden;
+  }
+
+  .search-container {
+    max-width: 100%;
+    margin: 15px auto;
+  }
+
+  #search-input {
+    font-size: 16px;
+    /* Prevents zoom on iOS */
+  }
+
+  .movie-details-content {
+    flex-direction: column;
+  }
+
+  .movie-poster-container {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto 20px;
+  }
+
+  #detail-poster {
+    width: 100%;
+  }
+
+  .poster-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .action-button {
+    flex: 1 0 45%;
+    margin: 5px;
     font-size: 0.9rem;
   }
 
-  #current-page {
-    padding: 8px 12px;
-    font-size: 0.9rem;
-    min-width: 100px;
+  .header-content {
+    padding: 10px 0;
   }
 
   .filter-buttons {
     gap: 8px;
+    margin: 15px 0;
   }
 
   .filter-btn {
@@ -1432,19 +1560,333 @@ footer::before {
     font-size: 0.8rem;
   }
 
+  .movies-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 15px;
+  }
+
+  .movie-card {
+    border-radius: 8px;
+  }
+
+  .movie-poster {
+    height: 200px;
+  }
+
+  .movie-info {
+    padding: 12px;
+  }
+
+  .movie-title {
+    font-size: 0.9rem;
+  }
+
+  .movie-year {
+    font-size: 0.8rem;
+  }
+
+  .card-btn {
+    width: 30px;
+    height: 30px;
+  }
+
+  .movie-details {
+    padding: 15px;
+  }
+
+  .movie-details-content {
+    gap: 20px;
+  }
+
+  .movie-info h2 {
+    font-size: 1.5rem;
+  }
+
+  .back-button {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+  }
+
+  .action-button {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  /* Improve modal responsiveness */
+  .modal-content {
+    width: 95%;
+    padding: 20px;
+  }
+
+  .auth-tab {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+  }
+
+  .social-share {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Improved footer for mobile */
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .footer-section {
+    padding: 0 10px;
+  }
+
+  .footer-section h3 {
+    font-size: 1.2rem;
+  }
+
+  .social-icons {
+    justify-content: center;
+  }
+
+  .footer-bottom {
+    margin-top: 20px;
+    padding: 15px 10px;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  .logo h1 {
+    font-size: 1.5rem;
+  }
+
+  .filter-section {
+    padding: 15px;
+    margin: 15px 0;
+  }
+
+  .filter-group label {
+    font-size: 0.9rem;
+  }
+
+  .filter-group select {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  .pagination {
+    gap: 10px;
+  }
+
+  .pagination button {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+    min-width: 70px;
+  }
+
+  #current-page {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    min-width: 80px;
+  }
+
+  .movie-meta {
+    font-size: 0.9rem;
+  }
+
+  .genre-tag {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+  }
+
+  .stars i {
+    font-size: 1.2rem;
+  }
+
+  .movie-plot p,
+  .movie-cast p {
+    font-size: 0.9rem;
+  }
+
+  .review-item {
+    padding: 15px;
+  }
+
+  #review-text {
+    height: 100px;
+  }
+
+  #submit-review {
+    padding: 10px 15px;
+  }
+
+  .footer-section h3 {
+    font-size: 1.2rem;
+  }
+
+  .footer-section p,
+  .footer-section li {
+    font-size: 0.9rem;
+  }
+
+  .social-icons a {
+    width: 35px;
+    height: 35px;
+    font-size: 1.4rem;
+  }
+
+  /* Extra small device improvements */
+  .container {
+    padding: 0 10px;
+  }
+
+  #search-form {
+    height: 45px;
+  }
+
+  #search-input {
+    padding: 10px 12px;
+  }
+
+  #search-form button {
+    padding: 0 15px;
+  }
+
   .section-header {
     margin-bottom: 20px;
   }
 
   #results-heading {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
+  }
+}
+
+/* Fix for landscape orientation on mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  nav#main-nav {
+    padding-top: 60px;
+  }
+
+  nav#main-nav a {
+    padding: 10px;
   }
 
   .movie-details {
-    padding: 20px;
+    padding: 15px;
+    margin: 20px 0;
   }
 
-  .movie-info h2 {
-    font-size: 1.8rem;
+  .movie-details-content {
+    flex-direction: row;
+    gap: 20px;
+  }
+
+  .movie-poster-container {
+    width: 200px;
+  }
+}
+
+/* Dropdown menu improvements */
+@media (max-width: 768px) {
+  .dropdown-content {
+    animation: none;
+    border-radius: 0;
+  }
+
+  .dropdown>a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .dropdown>a .fa-caret-down {
+    transition: transform 0.3s ease;
+  }
+
+  .dropdown.active>a .fa-caret-down {
+    transform: rotate(180deg);
+  }
+
+  /* Fix for nested navigation items */
+  nav#main-nav li {
+    position: relative;
+  }
+
+  nav#main-nav .dropdown-content a {
+    padding-left: 30px;
+    font-size: 0.95rem;
+  }
+}
+
+/* Touch-friendly improvements */
+@media (max-width: 768px) {
+  .card-btn {
+    padding: 10px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .filter-btn {
+    padding: 10px 15px;
+    min-height: 40px;
+  }
+
+  .pagination button {
+    min-width: 80px;
+    min-height: 44px;
+  }
+
+  select,
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    font-size: 16px;
+    /* Prevents zoom on iOS */
+    min-height: 44px;
+    /* Better touch targets */
+  }
+
+  .action-button {
+    min-height: 44px;
+  }
+
+  /* Improved touch targets in footer */
+  .footer-section ul li a,
+  .footer-section ul li {
+    min-height: 44px;
+    padding: 5px 0;
+  }
+}
+
+/* Fix for iOS input styling */
+input,
+textarea,
+select,
+button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 0;
+}
+
+/* Fix for iOS button styling */
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Improve filter buttons on mobile */
+@media (max-width: 480px) {
+  .filter-buttons {
+    display: flex;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    gap: 8px;
+    margin: 10px 0;
+  }
+
+  .filter-btn {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    white-space: nowrap;
   }
 }
